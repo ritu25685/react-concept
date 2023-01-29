@@ -1,10 +1,8 @@
-import "./App.css"
-import NavBar from "./components/NavBar/NavBar"
-import Cards from "./components/Cards/Cards"
-import "semantic-ui-css/semantic.min.css"
 import { useState } from "react"
+import { Icon } from "semantic-ui-react"
 
-const App = () => {
+import "./Cards.css"
+const Cards = () => {
   const [fruitObjects, setFruitObjects] = useState([
     {
       name: "Apple",
@@ -94,22 +92,36 @@ const App = () => {
       like: false,
     },
   ])
-  const [carts, setCarts] = useState([])
   const setLike = likedIndex => {
     let updatedValue = fruitObjects.map((fruit, index) =>
       likedIndex === index ? { ...fruit, like: !fruit.like } : { ...fruit }
     )
     setFruitObjects(updatedValue)
   }
-  const addItemToCart = listIndex => {
-    let newValue = fruitObjects.filter((fruit, index) => index === listIndex)
-    setCarts([...carts, ...newValue])
+  const renderFruits = () => {
+    let renderedFruits = fruitObjects.map((value, index) => {
+      return (
+        <div className="card-container">
+          <div className="image-container">
+            <div className="icon-container" onClick={() => setLike(index)}>
+              <Icon
+                name={value.like ? "heart" : "heart outline"}
+                color={value.like ? "red" : ""}
+              ></Icon>
+            </div>
+            <img src={value.image} alt={"image-of-" + value.name}></img>
+          </div>
+          <div className="detail-container">
+            <div className="name-container">{value.name}</div>
+            <div className="price-container">{value.price}</div>
+          </div>
+          <div className="button-container"></div>
+        </div>
+      )
+    })
+    return <div className="cards-container">{renderedFruits}</div>
   }
-  return (
-    <div className="app-container">
-      <NavBar carts={carts}></NavBar>
-      <Cards list={fruitObjects} setLike={setLike} addItemToCart={addItemToCart}></Cards>
-    </div>
-  )
+  return <>{renderFruits()}</>
 }
-export default App
+
+export default Cards
