@@ -102,8 +102,9 @@ const App = () => {
     setFruitObjects(updatedValue)
   }
   const addItemToCart = listIndex => {
-    let newValue = fruitObjects.filter((fruit, index) => index === listIndex)
-    setCarts([...carts, ...newValue])
+    let newValue = fruitObjects.filter((fruit, index) => 
+      index === listIndex? {...fruit,quantity:fruit.quantity+1}:{...fruit})
+  
   }
   return (
     <div className="app-container">
